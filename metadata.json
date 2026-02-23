@@ -1,0 +1,5 @@
+{
+  "name": "CRM Sheet – Quản Lý Data Khách Hàng",
+  "description": "Hệ thống quản lý data khách hàng chuyên sâu cho môi giới BĐS bằng Google Sheet. Tối ưu quy trình follow-up và chốt cọc.",
+  "requestFramePermissions": []
+}
