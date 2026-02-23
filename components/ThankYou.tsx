@@ -65,7 +65,7 @@ const ThankYou: React.FC<ThankYouProps> = ({ onBack }) => {
               { 
                 step: 3, 
                 text: "BẤM \"NOT SPAM\" ĐỂ NHẬN TÀI LIỆU", 
-                img: "https://i.postimg.cc/wvh1tXMV/Bu-o-c-3-new.png",
+                img: "https://i.postimg.cc/wvh1tXMV/Bu_o_c_3_new.png",
                 highlight: "\"NOT SPAM\""
               },
             ].map((item, i) => (
