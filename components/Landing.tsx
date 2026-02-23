@@ -119,8 +119,10 @@ const Landing: React.FC<LandingProps> = ({ onSuccess }) => {
               initial={{ opacity: 0, x: 30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="lg:sticky lg:top-12"
+              className="lg:sticky lg:top-12 relative"
             >
+              {/* Background highlight for form */}
+              <div className="absolute -inset-4 bg-gold/5 blur-3xl rounded-[4rem] -z-10"></div>
               <FormCard slots={slots} onSuccess={onSuccess} />
             </motion.div>
           </div>

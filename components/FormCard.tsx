@@ -1,6 +1,7 @@
 
 import React, { useState } from 'react';
-import { ShieldCheck, ArrowRight, Loader2 } from 'lucide-react';
+import { motion } from 'motion/react';
+import { ShieldCheck, ArrowRight, Loader2, Sparkles } from 'lucide-react';
 
 interface FormCardProps {
   slots: number;
@@ -58,81 +59,105 @@ const FormCard: React.FC<FormCardProps> = ({ slots, onSuccess }) => {
   };
 
   return (
-    <div className="bg-white p-6 md:p-10 rounded-[2.5rem] shadow-soft border border-gray-100 relative overflow-hidden">
-      <div className="absolute top-0 left-0 w-full h-1.5 bg-gold"></div>
+    <motion.div 
+      initial={{ opacity: 0, y: 20 }}
+      animate={{ opacity: 1, y: 0 }}
+      className="bg-white p-6 md:p-10 rounded-[2.5rem] shadow-2xl shadow-gold/10 border border-gold/20 relative overflow-hidden group"
+    >
+      <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-gold via-yellow-400 to-gold"></div>
       
-      <div className="mb-8 space-y-3">
+      {/* Decorative background glow */}
+      <div className="absolute -top-24 -right-24 w-48 h-48 bg-gold/5 blur-[80px] rounded-full group-hover:bg-gold/10 transition-colors duration-500"></div>
+      
+      <div className="mb-8 space-y-4 relative z-10">
         <div className="flex justify-between items-center">
           <span className="text-[10px] font-bold text-gray-400 line-through">Giá gốc: 2.200.000đ</span>
-          <span className="text-[9px] font-black text-red-600 bg-red-50 px-2.5 py-1 rounded-full uppercase tracking-widest border border-red-100 animate-pulse">
-            🔥 Miễn phí hôm nay
-          </span>
+          <motion.span 
+            animate={{ scale: [1, 1.05, 1] }}
+            transition={{ repeat: Infinity, duration: 2 }}
+            className="text-[10px] font-black text-red-600 bg-red-50 px-3 py-1.5 rounded-full uppercase tracking-widest border border-red-100 flex items-center gap-1.5"
+          >
+            <Sparkles className="w-3 h-3" /> MIỄN PHÍ HÔM NAY
+          </motion.span>
         </div>
-        <div className="p-3.5 bg-cream rounded-xl border border-gold/10">
-          <p className="text-[10px] font-extrabold text-[#111827] mb-1.5 uppercase tracking-tight">Số lượng có hạn:</p>
-          <div className="flex items-center gap-2.5">
-            <div className="flex-grow h-1.5 bg-gray-200 rounded-full overflow-hidden">
-              <div className="h-full bg-gold rounded-full transition-all duration-1000" style={{ width: `${(slots/5)*100}%` }}></div>
-            </div>
-            <span className="text-[10px] font-black text-gold">Còn {slots} suất</span>
+        
+        <div className="p-4 bg-gradient-to-br from-cream to-white rounded-2xl border border-gold/20 shadow-inner">
+          <div className="flex justify-between items-end mb-2">
+            <p className="text-[11px] font-black text-[#111827] uppercase tracking-tight">Số lượng quà tặng còn lại:</p>
+            <span className="text-xs font-black text-gold animate-pulse">Còn {slots} suất</span>
           </div>
-          <p className="text-[9px] text-gray-400 mt-1.5 italic font-medium">Form sẽ tự động đóng khi hết suất quà tặng miễn phí.</p>
+          <div className="h-2.5 bg-gray-100 rounded-full overflow-hidden border border-gray-50">
+            <motion.div 
+              initial={{ width: 0 }}
+              animate={{ width: `${(slots/5)*100}%` }}
+              transition={{ duration: 1.5, ease: "easeOut" }}
+              className="h-full bg-gradient-to-r from-gold to-yellow-400 rounded-full"
+            ></motion.div>
+          </div>
+          <p className="text-[10px] text-gray-400 mt-2 italic font-medium text-center">Form sẽ tự động đóng khi đủ số lượng đăng ký.</p>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className="space-y-5">
-        <div className="space-y-1.5">
-          <label className="text-[10px] font-black text-[#111827] uppercase tracking-widest ml-1">Họ và tên</label>
+      <form onSubmit={handleSubmit} className="space-y-5 relative z-10">
+        <div className="space-y-2">
+          <label className="text-[11px] font-black text-[#111827] uppercase tracking-widest ml-1">Họ và tên của bạn</label>
           <input
             required
             type="text"
             placeholder="Ví dụ: Nguyễn Văn Nam"
-            className="w-full px-5 py-3.5 rounded-xl border border-gray-100 focus:border-gold focus:ring-4 focus:ring-gold/5 outline-none transition-all font-medium text-sm text-gray-700 bg-cream/50"
+            className="w-full px-5 py-4 rounded-xl border border-gray-100 focus:border-gold focus:ring-4 focus:ring-gold/5 outline-none transition-all font-bold text-sm text-gray-800 bg-cream/30 placeholder:text-gray-300"
             value={formData.name}
             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
           />
         </div>
-        <div className="space-y-1.5">
-          <label className="text-[10px] font-black text-[#111827] uppercase tracking-widest ml-1">Email nhận file</label>
+        <div className="space-y-2">
+          <label className="text-[11px] font-black text-[#111827] uppercase tracking-widest ml-1">Email nhận tài liệu</label>
           <input
             required
             type="email"
             placeholder="email@gmail.com"
-            className="w-full px-5 py-3.5 rounded-xl border border-gray-100 focus:border-gold focus:ring-4 focus:ring-gold/5 outline-none transition-all font-medium text-sm text-gray-700 bg-cream/50"
+            className="w-full px-5 py-4 rounded-xl border border-gray-100 focus:border-gold focus:ring-4 focus:ring-gold/5 outline-none transition-all font-bold text-sm text-gray-800 bg-cream/30 placeholder:text-gray-300"
             value={formData.email}
             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
           />
         </div>
         
-        <label className="flex items-start gap-2.5 cursor-pointer select-none py-1 group">
-          <input type="checkbox" defaultChecked className="mt-0.5 accent-gold h-3.5 w-3.5 rounded-md" required />
-          <p className="text-[10px] text-gray-400 leading-relaxed font-medium group-hover:text-gray-500 transition-colors">
+        <label className="flex items-start gap-3 cursor-pointer select-none py-1 group/check">
+          <input type="checkbox" defaultChecked className="mt-1 accent-gold h-4 w-4 rounded-md cursor-pointer" required />
+          <p className="text-[10px] text-gray-400 leading-relaxed font-medium group-hover/check:text-gray-600 transition-colors">
             Tôi đồng ý nhận tài liệu và các bài học thực chiến qua email. <br/>
-            Có thể hủy bất cứ lúc nào chỉ với 1 click.
+            <span className="text-gray-300 italic">Có thể hủy bất cứ lúc nào chỉ với 1 click.</span>
           </p>
         </label>
 
-        <button
+        <motion.button
+          whileHover={{ scale: 1.02 }}
+          whileTap={{ scale: 0.98 }}
           disabled={loading || slots === 0}
           type="submit"
-          className="w-full bg-[#111827] text-white font-black py-4 rounded-xl shadow-xl hover:bg-[#1a2332] active:scale-95 disabled:opacity-50 transition-all flex items-center justify-center gap-2.5 group relative overflow-hidden"
+          className="w-full bg-[#111827] text-white font-black py-5 rounded-2xl shadow-2xl shadow-black/20 hover:bg-[#1a2332] disabled:opacity-50 transition-all flex flex-col items-center justify-center gap-1 group/btn relative overflow-hidden"
         >
           {loading ? (
-            <Loader2 className="w-5 h-5 animate-spin text-gold" />
+            <Loader2 className="w-6 h-6 animate-spin text-gold" />
           ) : (
             <>
-              <span className="text-sm">GỬI FILE CHO TÔI NGAY</span>
-              <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+              <div className="flex items-center gap-2.5">
+                <span className="text-base tracking-tight">GỬI FILE CHO TÔI NGAY</span>
+                <ArrowRight className="w-5 h-5 group-hover/btn:translate-x-1 transition-transform" />
+              </div>
+              <span className="text-[9px] text-gold/80 font-bold tracking-widest opacity-0 group-hover/btn:opacity-100 transition-opacity uppercase">Nhận link qua email sau 30s</span>
             </>
           )}
-        </button>
+          {/* Shimmer effect */}
+          <div className="absolute top-0 -inset-full h-full w-1/2 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent via-white/10 to-transparent group-hover/btn:animate-shimmer"></div>
+        </motion.button>
 
-        <div className="flex items-center justify-center gap-2 text-[9px] text-gray-300 font-bold uppercase tracking-widest pt-1">
-          <ShieldCheck className="w-2.5 h-2.5" />
-          <span>Bảo mật • Không spam • Hủy bất cứ lúc nào</span>
+        <div className="flex items-center justify-center gap-2.5 text-[10px] text-gray-400 font-bold uppercase tracking-widest pt-2">
+          <ShieldCheck className="w-3.5 h-3.5 text-emerald-500" />
+          <span>Bảo mật 100% • Không bao giờ spam</span>
         </div>
       </form>
-    </div>
+    </motion.div>
   );
 };
 
